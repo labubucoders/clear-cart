@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadyMart - Dark Pattern Testing Playground</title>
+  <link rel="stylesheet" href="test-store.css">
+  <link rel="stylesheet" href="../scripts/highlighter.css">
+</head>
+<body>
+
+  <!-- Demo Control Bar -->
+  <div class="demo-control-bar">
+    <div class="demo-title">
+      <span>🧪</span>
+      <span>Dark Pattern Playground: Real-World E-Commerce Traps</span>
+    </div>
+    <div class="demo-actions">
+      <button id="btn-trigger-modal" class="demo-btn">
+        ⚠️ Trigger Confirmshaming Popup
+      </button>
+      <button id="btn-toggle-patterns" class="demo-btn demo-btn-danger">
+        🧹 Clean Site (Turn Patterns Off -> Grade A)
+      </button>
+    </div>
+  </div>
+
+  <!-- Store Header -->
+  <header class="store-header">
+    <div class="store-logo">
+      🛒 Shady<span>Mart</span> Now
+    </div>
+    <div class="delivery-badge">
+      ⚡ 11 mins delivery
+    </div>
+    <div class="cart-icon">
+      🛒 Cart (1 item)
+    </div>
+  </header>
+
+  <!-- Dark Pattern: Staged MRP Savings Anchoring -->
+  <div id="dp-mrp-savings" class="savings-banner">
+    <div class="savings-main">
+      🎉 You're saving ₹772 <span class="badge-saved">50% saved</span>
+    </div>
+    <div class="savings-breakdown">
+      <span>MRP savings: -₹682</span>
+      <span>No Handling Fee: -₹10</span>
+      <span>Free Delivery: -₹30</span>
+      <span>Now Cashback: -₹50</span>
+    </div>
+  </div>
+
+  <!-- Dark Pattern: Urgency Banner + Countdown -->
+  <div id="dp-urgency-banner" class="urgency-banner">
+    <span>🔥 FLASH SALE ENDING:</span>
+    <span class="countdown-timer" id="demo-timer">00:14:59</span>
+    <span>— Order within the next 15 minutes before it's gone!</span>
+  </div>
+
+  <!-- Product & Cart Review Layout -->
+  <main class="store-container">
+
+    <!-- Dark Pattern: Intrusive Subscription / Prime Upsell Banner -->
+    <section id="dp-prime-upsell" class="prime-upsell-card">
+      <div class="prime-header">
+        <span class="prime-pill">Save more</span> with Prime
+      </div>
+      <div class="prime-perks-grid">
+        <div class="perk-item">
+          <div class="perk-icon">🪙</div>
+          <div>
+            <strong>Cashback ₹200</strong>
+            <p>on orders above ₹1499</p>
+          </div>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon">💳</div>
+          <div>
+            <strong>Extra 3% 5% back</strong>
+            <p>on Amazon Pay ICICI Bank Credit Card</p>
+          </div>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon">🛵</div>
+          <div>
+            <strong>FREE delivery</strong>
+            <p>on orders above <del>₹149</del> ₹99</p>
+          </div>
+        </div>
+      </div>
+      <div class="prime-action-row">
+        <button class="btn-join-prime">Join Prime</button>
+        <span class="fine-print">Limited time offer. T&C apply.</span>
+      </div>
+    </section>
+
+    <!-- Product Layout -->
+    <div class="product-layout">
+      
+      <!-- Product Media -->
+      <div class="product-media">
+        <div class="main-image-placeholder">
+          🔌
+          <p>HP 65W 4.5mm AC Laptop Charging Adapter - Black</p>
+        </div>
+      </div>
+
+      <!-- Product Details & Actions -->
+      <div class="product-info">
+        <h1 class="product-title">HP 65W 4.5mm AC Laptop Charging Adapter - Black</h1>
+        
+        <div class="pricing-row">
+          <span class="current-price">₹817</span>
+          <span class="original-price">₹1,499</span>
+          <span class="discount-tag">₹682 saved</span>
+          <span id="dp-ltd-badge" class="deal-badge-red">Limited time deal</span>
+          <span id="dp-endsin-badge" class="deal-badge-red">Ends in 05:52:21</span>
+        </div>
+
+        <!-- Dark Pattern: Fake Social Proof -->
+        <div id="dp-social-proof" class="social-proof-box">
+          <span>👥</span>
+          <span><strong>42 people</strong> are looking at this item right now!</span>
+        </div>
+
+        <!-- Dark Pattern: Scarcity & Low Stock Pressure -->
+        <div id="dp-scarcity" class="scarcity-alert">
+          <span>⚠️</span>
+          <span>Hurry! Only 2 left in stock — almost sold out</span>
+        </div>
+
+        <!-- Dark Pattern: Threshold Spending Trap / Basket Padding (Add ₹82 more for) -->
+        <div id="dp-threshold-trap" class="milestone-box">
+          <div class="milestone-track">
+            <span class="milestone-step done">🛵</span>
+            <span class="milestone-step done">₹50</span>
+            <span class="milestone-step locked">🔒 ₹100</span>
+          </div>
+          <div class="milestone-nudge">
+            <span class="milestone-text">Add <strong>₹82</strong> more for <strong>₹100 Cashback</strong></span>
+            <button class="btn-add-more" title="Add impulse item">+</button>
+          </div>
+        </div>
+
+        <!-- Dark Pattern: Sneak into Basket & Pre-Checked Add-ons -->
+        <div id="dp-addons" class="addons-section">
+          <label class="addon-row">
+            <input type="checkbox" id="warranty-check" checked>
+            <div class="addon-label">
+              <span class="addon-price">Add 2-Year Extended Protection Plan (+₹199)</span>
+              <span class="fine-print">Covers accidental electrical surges and wire damage.</span>
+            </div>
+          </label>
+
+          <!-- Dark Pattern: Hidden Recurring Subscription in fine print -->
+          <label class="addon-row">
+            <input type="checkbox" id="vip-check" checked>
+            <div class="addon-label">
+              <span class="addon-price">Enroll in ShadyMart VIP Club (First 30 days Free)</span>
+              <span class="fine-print">Renews automatically at ₹199/month until cancelled at regular price.</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Call to action button -->
+        <button class="btn-buy" id="btn-checkout">
+          Proceed to pay (₹817)
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Dark Pattern: Checkout Nagging ("You might have missed" section) -->
+    <section id="dp-nagging-section" class="missed-items-shelf">
+      <h2 class="shelf-title">You might have missed</h2>
+      <p class="shelf-subtitle">Frequently bought together with charging adapters before checkout</p>
+      
+      <div class="missed-grid">
+        <div class="missed-card">
+          <div class="missed-icon">🔌</div>
+          <div class="missed-details">
+            <span class="item-name">Power Cord Cable (3-Pin)</span>
+            <span class="item-price">₹149</span>
+          </div>
+          <button class="btn-quick-add">+ Add</button>
+        </div>
+
+        <div class="missed-card">
+          <div class="missed-icon">🧲</div>
+          <div class="missed-details">
+            <span class="item-name">Velcro Cable Organizer Strap</span>
+            <span class="item-price">₹89</span>
+          </div>
+          <button class="btn-quick-add">+ Add</button>
+        </div>
+
+        <div class="missed-card">
+          <div class="missed-icon">🛡️</div>
+          <div class="missed-details">
+            <span class="item-name">Surge Protector Spike Strip</span>
+            <span class="item-price">₹399</span>
+          </div>
+          <button class="btn-quick-add">+ Add</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Dark Pattern: Confirmshaming Modal + Low Contrast Opt-out -->
+  <div id="confirmshaming-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-badge">EXCLUSIVE ONE-TIME OFFER</span>
+      <h2 class="modal-title">Wait! Don't Miss Extra 20% OFF!</h2>
+      <p class="modal-desc">
+        Take an additional ₹150 off your order right now if you complete your checkout within 60 seconds.
+      </p>
+
+      <button class="btn-modal-claim" id="btn-claim-discount">
+        Claim My 20% Discount
+      </button>
+
+      <!-- Confirmshaming Opt-Out Button -->
+      <button class="btn-confirmshaming" id="btn-decline-shame">
+        No thanks, I hate saving money and prefer paying full price
+      </button>
+
+      <!-- Deceptive tiny low-contrast link -->
+      <div>
+        <a class="faint-optout" id="btn-faint-close" href="#">skip discount</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content scripts do not auto-inject into chrome-extension:// pages, so the demo store loads the scanner directly -->
+  <script src="../scripts/rules.js"></script>
+  <script src="../scripts/highlighter.js"></script>
+  <script src="../scripts/detector.js"></script>
+  <script src="../scripts/content.js"></script>
+  <script src="test-store.js"></script>
+</body>
+</html>
