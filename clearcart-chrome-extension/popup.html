@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearCart</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="dpg-app" role="main">
+    <header class="dpg-header">
+      <div class="dpg-brand-group">
+        <button id="brandRefreshBtn" class="dpg-brand-btn" type="button" aria-label="Rescan current page" title="Click ClearCart to rescan current page">
+          <svg class="dpg-brand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2L4 5.5V11.5C4 16.5 7.4 20.9 12 22C16.6 20.9 20 16.5 20 11.5V5.5L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+            <path d="M12 7V16.5M8.5 10H15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"></path>
+          </svg>
+          <h1 class="dpg-title dpg-brand-multicolor">ClearCart</h1>
+        </button>
+        <p id="domainLabel" class="dpg-domain" title="Active domain">Checking page...</p>
+      </div>
+      <div class="dpg-header-actions">
+        <button id="highlightToggle" class="dpg-highlight-btn" type="button" role="switch" aria-checked="false" aria-label="Highlight">
+          <span>Highlight</span>
+          <span class="dpg-inline-switch" aria-hidden="true">
+            <span class="dpg-inline-switch-thumb"></span>
+          </span>
+        </button>
+        <button id="settingsBtn" class="dpg-icon-btn" type="button" aria-expanded="false" aria-controls="settingsPanel" aria-label="Settings" title="Settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section id="statePanel" class="dpg-state-panel dpg-hidden" aria-live="polite">
+      <div class="dpg-state-card">
+        <p id="stateTitle" class="dpg-state-title"></p>
+        <p id="stateMessage" class="dpg-state-message"></p>
+        <button id="stateActionBtn" class="dpg-btn-secondary dpg-hidden" type="button"></button>
+      </div>
+    </section>
+
+    <div id="mainContent" class="dpg-main">
+      <section class="dpg-section" aria-labelledby="scoreSectionLabel">
+        <div class="dpg-score-card">
+          <div class="dpg-score-top">
+            <div id="gradeBox" class="dpg-grade-box" aria-label="Transparency Grade">
+              <span id="gradeLetter" class="dpg-grade-letter">-</span>
+            </div>
+            <div class="dpg-score-meta">
+              <div class="dpg-score-header-row">
+                <span id="scoreSectionLabel" class="dpg-score-label">Transparency Score</span>
+                <span id="scoreValue" class="dpg-score-value">-- / 100</span>
+              </div>
+              <div class="dpg-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="scoreProgressTrack">
+                <div id="scoreProgressFill" class="dpg-progress-fill" style="width: 0%;"></div>
+              </div>
+              <div class="dpg-status-row">
+                <span id="transparencyStatus" class="dpg-status-badge">Scanning</span>
+              </div>
+            </div>
+          </div>
+          <p id="scoreSummary" class="dpg-score-summary">
+            Analyzing page structure and persuasive copy locally.
+          </p>
+        </div>
+      </section>
+
+      <section class="dpg-section" aria-labelledby="breakdownHeading">
+        <div class="dpg-section-head">
+          <h2 id="breakdownHeading" class="dpg-section-heading">Pattern Breakdown</h2>
+          <button id="clearFilterBtn" class="dpg-link-btn dpg-hidden" type="button">
+            Clear filter
+          </button>
+        </div>
+        <div id="categoryGrid" class="dpg-category-grid" role="list"></div>
+      </section>
+
+      <section class="dpg-section" aria-labelledby="trapsHeading">
+        <div class="dpg-section-head">
+          <h2 id="trapsHeading" class="dpg-section-heading">Detected Traps</h2>
+          <span id="trapCountLabel" class="dpg-count-label">0 items</span>
+        </div>
+        <div id="trapsList" class="dpg-traps-list"></div>
+      </section>
+    </div>
+
+    <section id="settingsPanel" class="dpg-main dpg-hidden" aria-label="Settings">
+      <div class="dpg-section-head">
+        <h2 class="dpg-section-heading">APPEARANCE</h2>
+        <button id="settingsBackBtn" class="dpg-link-btn" type="button">
+          Back to scan
+        </button>
+      </div>
+
+      <div class="dpg-settings-card">
+        <div class="dpg-setting-block">
+          <span class="dpg-setting-label">Theme</span>
+          <div class="dpg-theme-segmented" role="radiogroup" aria-label="Theme">
+            <button id="themeOptLight" class="dpg-theme-seg-btn" type="button" role="radio" aria-checked="false" data-theme-opt="light">
+              <span>Light</span>
+            </button>
+            <button id="themeOptDark" class="dpg-theme-seg-btn is-selected" type="button" role="radio" aria-checked="true" data-theme-opt="dark">
+              <span>Dark</span>
+            </button>
+            <button id="themeOptSystem" class="dpg-theme-seg-btn" type="button" role="radio" aria-checked="false" data-theme-opt="system">
+              <span>System</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-icon-label">
+            <label for="settingLanguage" class="dpg-setting-label">Language</label>
+          </div>
+          <select id="settingLanguage" class="dpg-select" aria-label="Language">
+            <option value="en" selected>English</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dpg-section-head">
+        <h2 id="detectionHeading" class="dpg-section-heading">DETECTION</h2>
+      </div>
+
+      <div class="dpg-settings-card">
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-info">
+            <span id="autoScanLabel" class="dpg-setting-label">Auto-scan pages</span>
+            <span id="autoScanSub" class="dpg-setting-sub">Check every page when it loads</span>
+          </div>
+          <button id="settingAutoScan" class="dpg-inline-switch dpg-setting-switch" type="button" role="switch" aria-checked="true" aria-label="Auto-scan pages">
+            <span class="dpg-inline-switch-thumb"></span>
+          </button>
+        </div>
+
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-info">
+            <span id="highlightTrapsLabel" class="dpg-setting-label">Highlight traps on page</span>
+            <span id="highlightTrapsSub" class="dpg-setting-sub">Mark deceptive elements</span>
+          </div>
+          <button id="settingHighlightTraps" class="dpg-inline-switch dpg-setting-switch" type="button" role="switch" aria-checked="false" aria-label="Highlight traps on page">
+            <span class="dpg-inline-switch-thumb"></span>
+          </button>
+        </div>
+
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-info">
+            <span id="testDemoLabel" class="dpg-setting-label">Test demo site</span>
+            <span id="testDemoSub" class="dpg-setting-sub">Open the ShadyMart test store</span>
+          </div>
+          <button id="openTestStoreBtn" class="dpg-footer-btn" type="button">
+            Open
+          </button>
+        </div>
+      </div>
+
+      <div class="dpg-section-head">
+        <h2 id="privacyHeading" class="dpg-section-heading">PRIVACY</h2>
+      </div>
+
+      <div class="dpg-settings-card">
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-info">
+            <span id="onDeviceTitle" class="dpg-setting-label">100% on-device and private</span>
+            <span id="onDeviceSub" class="dpg-setting-sub">Your browsing never leaves this device.</span>
+          </div>
+        </div>
+
+        <div class="dpg-setting-row">
+          <div class="dpg-setting-info">
+            <span id="clearHistoryLabel" class="dpg-setting-label">Clear scan history</span>
+          </div>
+          <button id="clearHistoryBtn" class="dpg-icon-action-btn" type="button" aria-label="Clear scan history" title="Clear scan history">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 6H21M8 6V4H16V6M6 6L7 20H17L18 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dpg-footer">
+      <span id="footerPrivacyNote" class="dpg-privacy-note">100% On-Device &amp; Private</span>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShadyMart — ClearCart Test Store</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #171513; color: #F1F1EF; padding: 28px 20px; line-height: 1.45; }
+    .wrap { max-width: 960px; margin: 0 auto; display: grid; gap: 20px; }
+    .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #2C2825; padding-bottom: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-title { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+    .brand-sub { font-size: 12px; color: #8E8780; margin-left: 6px; }
+    .reset-btn { display: none; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; border-radius: 6px; border: 1px solid #3A3531; background: #252220; color: #F1F1EF; cursor: pointer; }
+    .reset-btn.is-visible { display: inline-flex; }
+    .timer-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-radius: 8px; background: rgba(220, 38, 38, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #FCA5A5; font-size: 12px; font-weight: 500; }
+    .timer-mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
+    .grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; align-items: start; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+    .col-stack { display: grid; gap: 16px; }
+    .card { background: #1E1C1A; border: 1px solid #3A3531; border-radius: 10px; padding: 16px; }
+    .product-row { display: flex; gap: 16px; }
+    .product-img { width: 96px; height: 96px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #252220; }
+    .product-title { margin: 0; font-size: 14px; font-weight: 600; color: #F1F1EF; }
+    .product-meta { margin: 4px 0 0 0; font-size: 12px; color: #9E978F; }
+    .product-price { margin: 8px 0 0 0; font-size: 16px; font-weight: 700; color: #F1F1EF; font-variant-numeric: tabular-nums; }
+    .badges-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding-top: 12px; margin-top: 12px; border-top: 1px solid #2C2825; }
+    @media (max-width: 540px) { .badges-row { grid-template-columns: 1fr; } }
+    .viewer-pill { padding: 8px 12px; border-radius: 6px; background: #252220; font-size: 12px; color: #D6D3D1; }
+    .stock-pill { padding: 8px 12px; border-radius: 6px; background: rgba(245, 158, 11, 0.12); font-size: 12px; color: #FCD34D; }
+    .row-between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .muted { color: #9E978F; font-size: 11px; margin: 4px 0 0 0; }
+    .skip-btn { padding: 5px 10px; font-size: 11px; font-weight: 500; border-radius: 5px; border: 1px solid #3A3531; background: transparent; color: #D6D3D1; cursor: pointer; flex-shrink: 0; }
+    .vip-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; }
+    .btn-amber { background: #F59E0B; color: #1C1A18; border: none; border-radius: 6px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .shame-btn { background: none; border: none; color: #9E978F; text-decoration: underline; cursor: pointer; font-size: 12px; padding: 0; }
+    .dismissed-note { padding: 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.35); background: rgba(16, 185, 129, 0.12); color: #6EE7B7; font-size: 12px; }
+    .summary-title { margin: 0 0 14px 0; font-size: 14px; font-weight: 600; color: #F1F1EF; }
+    .addon-box { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 6px; border: 1px solid #3A3531; background: #252220; cursor: pointer; font-size: 12px; color: #E7E5E4; }
+    .totals { display: grid; gap: 8px; margin: 16px 0; font-size: 12px; color: #A8A29E; }
+    .total-final { padding-top: 10px; border-top: 1px solid #2C2825; font-size: 14px; font-weight: 700; color: #F1F1EF; }
+    .pay-btn { width: 100%; padding: 10px 16px; border: none; border-radius: 6px; background: #D9A66B; color: #1C1A18; font-size: 12px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
+    .fine-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 11px; color: #8E8780; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-title">ShadyMart</span>
+        <span class="brand-sub">Test Storefront · Interactive Dark-Pattern Sandbox</span>
+      </div>
+      <button id="resetTrapsBtn" class="reset-btn" type="button">Reset All 7 Traps</button>
+    </header>
+
+    <div class="timer-bar">
+      <span id="timerCopy" class="timer-mono">Offer expires in <span id="timerClock">00:04:59</span> — complete checkout now</span>
+      <span class="muted" style="margin:0; color:#FCA5A5; opacity:0.85;">Cart reservation expiring</span>
+    </div>
+
+    <div class="grid">
+      <div class="col-stack">
+        <div class="card">
+          <div class="product-row">
+            <img class="product-img" src="headphones.jpg" alt="Studio ANC Wireless Over-Ear Headphones">
+            <div>
+              <h3 class="product-title">Studio ANC Wireless Over-Ear Headphones</h3>
+              <p class="product-meta">Obsidian Matte · 40-hour battery · USB-C fast charge</p>
+              <p class="product-price">₹4,499</p>
+            </div>
+          </div>
+          <div class="badges-row">
+            <div class="viewer-pill"><span>47 people are viewing this product right now</span></div>
+            <div class="stock-pill"><span>Only 2 left in stock — selling fast</span></div>
+          </div>
+        </div>
+
+        <div id="thresholdCard" class="card row-between">
+          <div>
+            <span style="font-size:12px; font-weight:600;">Add ₹82 more to receive ₹100 cashback at checkout</span>
+            <p class="muted">Minimum cart threshold ₹4,581 required for instant credit</p>
+          </div>
+          <button id="skipThresholdBtn" class="skip-btn" type="button">Skip Offer</button>
+        </div>
+        <div id="thresholdDismissed" class="dismissed-note" hidden>Basket padding offer dismissed. Click ClearCart to rescan.</div>
+
+        <div id="vipCard" class="card">
+          <div style="font-size:12px; font-weight:600;">Unlock VIP Priority Coupon Bundle (₹199/mo)</div>
+          <p class="muted" style="font-size:12px;">Save 10% on today's accessories when you join ShadyMart Plus.</p>
+          <div class="vip-actions">
+            <button id="claimVipBtn" class="btn-amber" type="button">Yes, Claim Savings</button>
+            <button id="declineVipBtn" class="shame-btn" type="button">No thanks, I hate saving money</button>
+          </div>
+        </div>
+        <div id="vipDismissed" class="dismissed-note" hidden>Confirmshaming prompt dismissed. Click ClearCart to rescan.</div>
+      </div>
+
+      <div class="card">
+        <h3 class="summary-title">Checkout Summary</h3>
+        <label class="addon-box">
+          <input id="warrantyCheckbox" type="checkbox" checked>
+          <span>Add 2-Year Accidental Protection Plan (+₹499)</span>
+        </label>
+
+        <div class="totals">
+          <div class="row-between">
+            <span>Headphones Subtotal</span>
+            <span>₹4,499</span>
+          </div>
+          <div class="row-between">
+            <span>Protection Plan</span>
+            <span id="warrantyFeeLabel">₹499</span>
+          </div>
+          <div class="row-between total-final">
+            <span>Total Due Now</span>
+            <span id="totalDueLabel">₹4,998</span>
+          </div>
+        </div>
+
+        <button id="payOrderBtn" class="pay-btn" type="button">Pay &amp; Complete Order</button>
+
+        <label class="fine-label">
+          <input id="autoRenewCheckbox" type="checkbox" checked>
+          <span>Membership auto-renews monthly at ₹399 unless cancelled 48 hours prior.</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <script src="store.js"></script>
+  <script src="../rules.js"></script>
+  <script src="../highlighter.js"></script>
+  <script src="../content.js"></script>
+</body>
+</html>
